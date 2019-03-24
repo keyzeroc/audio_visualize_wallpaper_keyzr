@@ -1,19 +1,20 @@
 {
 	"file" : "index.html",
-	"preview" : "prev.png",
 	"general" : 
 	{
-		"supportsaudioprocessing" : true,
 		"properties" : 
 		{
 			"schemecolor" : 
 			{
+				"order" : 0,
 				"text" : "Scheme color",
 				"type" : "color",
 				"value" : "0.7 0.2 0.1"
 			}
-		}
+		},
+		"supportsaudioprocessing" : true
 	},
+	"preview" : "prev.png",
 	"title" : "Advanced Web Tutorial - Audio Input",
 	"type" : "web"
 }

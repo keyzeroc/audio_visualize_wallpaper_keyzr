@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+    div{
+        width: 20px;
+        height: 20px;
+    }
+    </style>
+</head>
+<body>
+<script>
+    var div = document.querySelector('div');
+    var body = document.querySelector('body');
+for(let i=0;i<64;i++){
+    let newDiv = document.createElement('div');
+    let r = 255*(i+1);
+    let g = 0;
+    let b = 0;
+    newDiv.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
+    body.appendChild(newDiv);
+}               
+</script>
+</body>
+</html>

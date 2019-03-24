@@ -13,6 +13,7 @@ window.wallpaperPropertyListener = {
     }
 };
 
+var loop;
 var canvas;
 var canvasCtx;
 var audioSamples = [];
@@ -28,6 +29,13 @@ window.onload = function() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     }
+    /*
+    loop = setTimeout(function tick() {
+        run();
+        timerId = setTimeout(tick, 10); 
+    }, 10);
+    */
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     window.requestAnimationFrame(run);
 }
 /**
@@ -62,6 +70,7 @@ function wallpaperAudioListener(audioArray) {
     audioSamples = audioArray;
 }
 function run() {
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     window.requestAnimationFrame(run);
     //***************************************CLEAR AREA**************************************
     if(bgtype == 1){
@@ -92,27 +101,37 @@ function drawPeaks1(){
 //rainbow peaks
 function drawPeaks2(){
     let barWidth = (canvas.width / 128.0);
-    let halfCount = audioSamples.length / 2;
-    for (let i = 0; i < halfCount; ++i) {
-        let height = canvas.height * audioSamples[i];
-        
-        let r = height + (25 * (i/128.0));
-        let g = 250 * (i/128.0);
-        let b = 50;
-        canvasCtx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+    let leftArr = audioSamples.slice(0,64);//0 incl - 64 not incl
+    let rightArr = audioSamples.slice(64,128);//64 incl - 128 not incl
+    
+    leftArr.sort();
+    rightArr.sort(myCompare);
+
+    for (let i = 0; i < leftArr.length; i++) {
+        let height = canvas.height * leftArr[i];
+
+        canvasCtx.fillStyle = getVaporRGB(63-i,height);
 
         canvasCtx.fillRect(barWidth * i, canvas.height - height, barWidth, height);
     }
-    for (let i = halfCount; i < audioSamples.length; ++i) {
-        let height = canvas.height * audioSamples[191 - i];
+    for (let i = 0; i < rightArr.length; i++) {
+        let height = canvas.height * rightArr[i];
                 
-        let r = height + (25 * (i/128.0));
-        let g = 250 * (i/128.0);
-        let b = 50;
-        canvasCtx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+        canvasCtx.fillStyle = getVaporRGB(i,height);
 
-        canvasCtx.fillRect(barWidth * i, canvas.height - height, barWidth, height);
+        canvasCtx.fillRect(barWidth *(64+i), canvas.height - height, barWidth, height);
     }
+}
+function getVaporRGB(i,height){
+    //let r = height*3 + (64/(i+1));
+    let r = height*0.4*(255/(2*(i+1)));
+    //let g = 255 * ((i+1)/64);
+    let g = 255/height*((i+1)*0.2);
+    let b = 100+i;
+    return "rgb(" + r + "," + g + "," + b + ")";
+}
+function myCompare(a, b) {
+    return b - a;
 }
 
 
