@@ -128,7 +128,7 @@ function getVaporRGB(i,height){
     //let g = 255 * ((i+1)/64);
     let g = 255/height*((i+1)*0.2);
     let b = 100+i;
-    return "rgb(" + r + "," + g + "," + b + ")";
+    return "rgba(" + r + "," + g + "," + b + ",0.7)";
 }
 function myCompare(a, b) {
     return b - a;
